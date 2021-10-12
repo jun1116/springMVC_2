@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/basic")
 public class BasicController {
     @Data
-    static class User{
+    static class User {
         private String username;
         private int age;
 
@@ -49,6 +50,7 @@ public class BasicController {
         model.addAttribute("data", "hello <b>Spring</b>");
         return "basic/text-unescaped";
     }
+
     @GetMapping("/variable")
     public String variable(Model model) {
         User userA = new User("userA", 10);
@@ -70,13 +72,20 @@ public class BasicController {
 
     @GetMapping("/basic-objects")
     public String basicObjects(HttpSession session) {
-        session.setAttribute("sessionData","Hello Session");
+        session.setAttribute("sessionData", "Hello Session");
         return "basic/basic-objects";
     }
+
     @Component("helloBean")
-    static class HelloBean{
+    static class HelloBean {
         public String hello(String data) {
-            return "Hello "+data;
+            return "Hello " + data;
         }
+    }
+
+    @GetMapping("/date")
+    public String date(Model model) {
+        model.addAttribute("localDateTime", LocalDateTime.now());
+        return "basic/date";
     }
 }
